@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>ข้อมูลของฉัน</h1>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-half-left">
+            <p>รหัสผู้ใช้: {{ user_id }}</p>
+            <p>ชื่อ: {{ user_name }}</p>
+            <p>อีเมล: {{ user_email }}</p>
+            <p>รหัสผ่าน: ******** [ <a href="/password-change">เปลี่ยนรหัสผ่าน</a> ]</p>
+            <p>ประเภทการใช้งาน: {{ user_role }}</p>
+            <p>วันที่สร้างบัญชี: {{ user_create_dt.strftime('%d-%m-%Y') }}</p>
+            <p>วันที่ล็อกอินครั้งล่าสุด: {{ user_lastlogin_dt.strftime('%d-%m-%Y') }}</p>
+        </div>
+        <div class="main-flex-half-right">
+            {% if user_role == "author" %}
+                <h2>สำหรับผู้สร้างเนื้อหา</h2>
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/create">สร้างคอร์สใหม่</a></span></p>
+                <div class="spacer-big"></div>
+                {% if courses %}
+                    <h3>รายชื่อคอร์สที่ฉันสร้าง</h3>
+                    {% for course in courses %}
+                        <p><a href="/course/{{ course.slug }}">{{ course.name }}</a></p>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+            {% if learner_enrollments %}
+                <h2>คอร์สเรียนของฉัน</h2>
+                <p>คอร์สที่ได้ลงทะเบียนเรียนไว้แล้ว</p>
+                {% for course in joined_courses %}
+                    <p>
+                        <a href="/course/{{ course.slug }}">{{ course.name }}</a>
+                        {% if course.id in enrollment_list %}
+                            <p class="continue"><a href="/cert/{{ course.slug }}">ขอรับประกาศนียบัตรคอร์สนี้</a></p>
+                        {% endif %}
+                    </p>
+                {% endfor %}
+            {% elif user_role != "author" %}
+                <h2>ยินดีต้อนรับ</h2>
+                <p>คุณยังไม่ได้ลงทะเบียนเรียนคอร์สใดเลย</p>
+                <p class="continue"><a href="/courses">เลือกดูคอร์สเพื่อสมัครเรียน</a></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

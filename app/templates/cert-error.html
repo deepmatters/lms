@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>ประกาศนียบัตร</h1>
+    {% if hash_valid == False %}
+        <p>{{ hash_output }}</p>
+    {% endif %}
+</div>
+{% endblock %}

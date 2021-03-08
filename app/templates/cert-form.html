@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>กรอกข้อมูลออกประกาศนียบัตร</h1>
+    <h2>สำหรับคอร์ส: {{ course.name }}</h2>
+        <form action="/cert/{{ course.slug }}/issued" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label class=text-gray for="hash">Cert ID จากแอปพลิเคชัน:</label>
+        <input class=text-gray type="text" id="hash" name="hash" value={{cert_id}} readonly="readonly">
+        <br>
+
+        <label for="name">กรุณากรอกชื่อและนามสกุลที่ต้องการให้ปรากฏบนประกาศนียบัตร:</label>
+        <input type="text" id="name" name="name" placeholder="นายทดสอบ ลองทดสอบ" autofocus><br>
+
+        <label for="name">กรุณากรอกชื่อโรงเรียน (ไม่ต้องมีคำว่า "โรงเรียน"):</label>
+        <input type="text" id="school" name="school" placeholder="แจ้คอนวิทยา"><br>
+
+        <div class="passed-zone">
+            <p>กรุณาตรวจสอบข้อมูลที่กรอกให้ถูกต้องก่อนจะกด "ออกประกาศนียบัตร" ถ้ากรอกผิดจะกลับไปแก้ไขไม่ได้</p>
+        </div>
+        <br>
+
+        <input class="button" type="submit" value="ออกประกาศนียบัตร">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="main-wrapper">
+        <h1>คอร์สเรียน</h1>
+        <div class="main-flex-wrapper">
+            {% if courses %}
+                {% for course in courses %}
+                <div class="main-flex-course">
+                    <h2>{{ course.name }}</h2>
+                    <p>{{ course.description|markdown|truncate(300) }}</p>
+                    <p><a href="/course/{{ course.slug }}">ดูรายละเอียด</a></p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>ยังไม่มีคอร์สเรียน</p>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

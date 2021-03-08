@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    {% if cert_status == "unissued" %}
+        <h1>ออกประกาศนียบัตร</h1>
+        <p>ขอแสดงความยินดีที่ได้เรียนจบคอร์ส {{ course.name }}</p>
+        <p>กรุณา [ <a href="/cert/{{ course.slug }}/issue/{{ cert_id }}">กดที่นี่</a> ] เพื่อออกประกาศนียบัตรจบหลักสูตร</p>
+        <!-- Google Analytics tag to mark this stage as 'unlock achievement' -->
+        <script>
+        gtag('event', 'unlock_achievement', {
+        achievement_id: 'Cert eligible'
+        });
+        </script>
+    {% elif cert_status == "issued" %}
+        <h1>ประกาศนียบัตรของคุณ</h1>
+        <p>เราได้ออกประกาศนียบัตรคอร์ส {{ course.name }} ให้คุณแล้ว กรุณาเชฟภาพนี้</p>
+        <!-- MUST CONFIGURE S3 URL WHEN DEPLOYED -->
+        <img src="https://deepmatters-lms.s3.ap-southeast-1.amazonaws.com/certs/{{ course.slug }}-cert-{{cert_id}}.png" alt="Certificate">
+    {% endif %}
+</div>
+{% endblock %}

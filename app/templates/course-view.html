@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>{{ course.name }}</h1>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-half-left">
+            {{ course.description|markdown }}
+            <p>หมวดหมู่: {{ course.category }}</p>
+            <p>เกณฑ์การผ่านคอร์ส: ต้องเรียนให้ผ่าน {{ course.pass_condition*100 }}% ของโมดูล</p>
+        </div>
+        <div class="main-flex-half-right">
+            {% if course_creator %}
+                <h2>สำหรับเจ้าของคอร์สนี้</h2>
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/edit">แก้ไขข้อมูลคอร์ส</a></span> &nbsp;&nbsp;<span class="caution"><a href="/course/{{ slug }}/delete">ลบคอร์ส</a></span></p>
+                <div class="spacer-big"></div>
+                <h3>โมดูลของคอร์สนี้</h3>
+                {% if modules %}
+                    <table class="about">
+                        <tr><th>โมดูลที่</th><th>ชื่อโมดูล</th></tr>
+                        {% for module in modules %}
+                        <tr>
+                            <td class="col1-small">{{ module.module_rank }}</td>
+                            <td class="col2-small"><a href="/course/{{ slug }}/{{ module.module_rank }}">{{ module.name }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>ยังไม่มีโมดูลในคอร์สนี้</p>
+                {% endif %}
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/add">+ เพิ่มโมดูล</a></span></p>
+                <div class="spacer-big"></div>
+                <h3>ผู้เรียนคอร์สนี้</h3>
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/learners/sort-enrollment">ดูข้อมูลผู้เรียนคอร์สนี้</a></span></p>
+                <div class="spacer-big"></div>
+            {% endif %}
+            {% if learner %}
+                <h3>โมดูลของคอร์สนี้</h3>
+                {% if modules %}
+                    <table class="about">
+                        <tr><th>โมดูลที่</th><th>ชื่อโมดูล</th></tr>
+                        {% for module in modules %}
+                        <tr>
+                            <td class="col1-small">{{ module.module_rank }}</td>
+                            <td class="col2-small">{{ module.name }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>ยังไม่มีโมดูลในคอร์สนี้</p>
+                {% endif %}
+                {% if learner_enrolled and not enrolled_cert %}
+                    <p>คุณได้สมัครเรียนคอร์สนี้ไว้แล้ว</p>
+                    <p>ความก้าวหน้าของคุณ: {{ (pct_progress*100)|round(2) }}%</p>
+                    <p><span class="continue"><a href="/course/{{ slug }}/continue">
+                        {% if pct_progress == 0 %}
+                            เริ่มเรียน
+                        {% else %}
+                            เรียนต่อจากที่ค้างไว้
+                        {% endif%}
+                    </a></span></p>
+                    <div class="spacer-big"></div>
+                {% elif learner_enrolled and enrolled_cert %}
+                    <p>คุณเรียนคอร์สนี้จบแล้ว</p>
+                    <p><span class="continue"><a href="/course/{{ slug }}/reentry">เข้าไปดูบทเรียน</a></span></p>
+                    <div class="spacer-big"></div>
+                {% else %}
+                    <div class="spacer-small"></div>
+                    <p><span class="continue"><a href="/course/{{ slug }}/enroll">สมัครเรียนคอร์สนี้</a></span></p>
+                    <div class="spacer-big"></div>
+                {% endif %}
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <h3>โมดูลของคอร์สนี้</h3>
+                {% if modules %}
+                    <table class="about">
+                        <tr><th>โมดูลที่</th><th>ชื่อโมดูล</th></tr>
+                        {% for module in modules %}
+                        <tr>
+                            <td class="col1-small">{{ module.module_rank }}</td>
+                            <td class="col2-small">{{ module.name }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>ยังไม่มีโมดูลในคอร์สนี้</p>
+                {% endif %}
+                <p>กรุณาล็อกอินเพื่อสมัครเรียนหรือเรียนต่อจากที่ค้างไว้</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

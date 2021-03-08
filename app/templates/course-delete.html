@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="login-wrapper">
+        <h1>ยืนยันการลบคอร์ส</h1>
+        <p>คุณแน่ใจหรือไม่ที่จะลบคอร์ส {{ course.name }}</p>
+        <p class="red-em">หากลบคอร์ส ข้อมูลที่เกี่ยวกับคอร์สจะหายหมด เช่นโมดูล แบบทดสอบ รวมทั้งความก้าวหน้าของผู้เรียนทุกคนที่เคยเรียนคอร์สนี้ด้วย</p>
+        <p>[ <a href="/course/{{ course.slug }}/delete/confirm">แน่ใจ ลบคอร์สทันที</a> ]</p>
+        <p>[ <a href="/course/{{ course.slug }}">ยกเลิกการลบคอร์ส</a> ]</p>
+    </div>
+</div>
+{% endblock %}

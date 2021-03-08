@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ pagedown.include_pagedown() }}
+<div class="main-wrapper">
+    <h1>แก้ไขข้อมูลคอร์ส</h1>
+    <form method="POST" action="/course/{{ slug }}/edit">
+        {{ form.csrf_token }}
+        <div class="input-wrapper">
+            {{ form.name.label }}
+            {{ form.name(size=32, autofocus=true) }}<br>
+            {{ form.description.label }}
+            <div class="instruction">
+                <p>Use Markdown syntax to format styles:</p>
+                <table>
+                    <tr><td># Header, ## Header, ### Header for Header level 1, 2, 3</td></tr>
+                    <tr><td>**text** for <strong>Bold text</strong></td></tr>
+                    <tr><td>*text* for <em>Italic text</em></td></tr>
+                    <tr><td>> text for blockquote</td></tr>
+                    <tr><td>1. item for ordered list</td></tr>
+                    <tr><td>- item for unordered list</td></tr>
+                    <tr><td>![description](/image/url.png) for image</td></tr>
+                    <tr><td>[link title](https://example.com) for link</td></tr>
+                    <tr><td>--- for blank line</td></tr>
+                </table>
+                <p>Read <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown reference</a>.</p>
+            </div>
+            {{ form.description() }}<br><br>
+            {{ form.category.label }}
+            {{ form.category(size=32) }}<br>
+            {{ form.slug.label }}
+            {{ form.slug(size=32) }}<br>
+            {{ form.pass_condition.label }}
+            <p>ต้องเรียนให้ผ่านกี่ % ของจำนวนโมดูลทั้งหมด จึงจะได้รับประกาศนียบัตร</p>
+            <ul>
+                <li>หากต้องเรียนให้ผ่านทุกโมดูล ใส่ 1</li>
+                <li>หากต้องเรียนให้ผ่านบางส่วนของโมดูล ใส่ค่าระหว่าง 0-1 เช่น 0.75 คือต้องเรียนให้ผ่าน 3 ใน 4 ของจำนวนโมดูลทั้งหมด</li>
+                <li>หากเป็นคอร์สที่ไม่มีแบบทดสอบ คือให้ดูเนื้อหาแล้วผ่านได้เลย ให้ใส่ 0 มิฉะนั้นระบบจะไม่ยอมให้จบ เพราะถือว่ายังไม่ผ่านแบบทดสอบ</li>
+            </ul>
+            {{ form.pass_condition(size=8) }}<br>
+        </div>
+        <div class="button-wrapper">
+            {{ form.submit_edit(class_="button") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

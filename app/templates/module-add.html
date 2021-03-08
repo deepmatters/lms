@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ pagedown.include_pagedown() }}
+<div class="main-wrapper">
+    <h1>สร้างโมดูลใหม่</h1>
+    <form method="POST" action="/course/{{ slug }}/add">
+        {{ form.csrf_token }}
+        <div class="input-wrapper">
+            {{ form.module_rank.label }}
+            {{ form.module_rank(size=8, placeholder="1", autofocus=true) }}<br>
+            {{ form.name.label }}
+            {{ form.name(size=32, placeholder="ใส่ชื่อโมดูล") }}<br>
+            {{ form.vdo_url.label }}
+            {{ form.vdo_url(size=48, placeholder="เช่น https://www.youtube.com/embed/3IFln_F5KdM") }}<br>
+            {{ form.description.label }}
+            <div class="instruction">
+                <p>Use Markdown syntax to format styles:</p>
+                <table>
+                    <tr><td># Header, ## Header, ### Header for Header level 1, 2, 3</td></tr>
+                    <tr><td>**text** for <strong>Bold text</strong></td></tr>
+                    <tr><td>*text* for <em>Italic text</em></td></tr>
+                    <tr><td>> text for blockquote</td></tr>
+                    <tr><td>1. item for ordered list</td></tr>
+                    <tr><td>- item for unordered list</td></tr>
+                    <tr><td>![description](/image/url.png) for image</td></tr>
+                    <tr><td>[link title](https://example.com) for link</td></tr>
+                    <tr><td>--- for blank line</td></tr>
+                </table>
+                <p>Read <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown reference</a>.</p>
+            </div>
+            {{ form.description(placeholder="ใส่คำอธิบายโมดูล สามารถใช้ Markdown ตกแต่งข้อความได้") }}<br><br>
+            {{ form.file_url.label }}
+            {{ form.file_url(size=48, placeholder="ใส่ URL ของไฟล์เอกสารประกอบ (ถ้ามี)") }}<br>
+            {{ form.pass_condition.label }}
+            {{ form.pass_condition(size=8, placeholder="0.8") }}<br>
+        </div>
+        <div class="button-wrapper">
+            {{ form.submit(class_="button") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

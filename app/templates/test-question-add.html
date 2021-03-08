@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ pagedown.include_pagedown() }}
+<div class="main-wrapper">
+    <h1>สร้างคำถามใหม่</h1>
+    <form method="POST" action="/course/{{ slug }}/{{ module_rank }}/add">
+        {{ form.csrf_token }}
+        <div class="input-wrapper">
+            {{ form.question_rank.label }}
+            {{ form.question_rank(size=8, placeholder="1", autofocus=true) }}<br>
+            {{ form.question.label }}
+            <div class="instruction">
+                <p>Use Markdown syntax to format styles:</p>
+                <table>
+                    <tr><td># Header, ## Header, ### Header for Header level 1, 2, 3</td></tr>
+                    <tr><td>**text** for <strong>Bold text</strong></td></tr>
+                    <tr><td>*text* for <em>Italic text</em></td></tr>
+                    <tr><td>> text for blockquote</td></tr>
+                    <tr><td>1. item for ordered list</td></tr>
+                    <tr><td>- item for unordered list</td></tr>
+                    <tr><td>![description](/image/url.png) for image</td></tr>
+                    <tr><td>[link title](https://example.com) for link</td></tr>
+                    <tr><td>--- for blank line</td></tr>
+                </table>
+                <p>Read <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown reference</a>.</p>
+            </div>
+            {{ form.question(placeholder="ใส่โจทย์คำถาม สามารถใช้ Markdown ตกแต่งข้อความได้") }}<br><br>
+        </div>
+        <div class="button-wrapper">
+            {{ form.submit(class_="button") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

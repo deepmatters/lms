@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>{{ course.name }}</h1>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-half-left">
+            <p>โมดูลที่ {{ module.module_rank }}</p>
+            <h2>{{ module.name }}</h2>
+            {% if module.vdo_url %}
+                <div class="iframe-container">
+                    <iframe class="iframe-item" src="{{ module.vdo_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            {% endif %}
+            {{ module.description|markdown }}
+            {% if module.file_url %}
+                <p>ไฟล์เอกสารประกอบ: <a href="{{ module.file_url }}">ดาวน์โหลด</a></p>
+            {% endif %}
+            <p>เกณฑ์การผ่านโมดูล: ต้องทำแบบทดสอบให้ผ่าน {{ module.pass_condition*100 }}%</p>
+        </div>
+        <div class="main-flex-half-right">
+            {% if module_creator %}
+                <h2>สำหรับเจ้าของโมดูลนี้</h2>
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/{{ module.module_rank }}/edit">แก้ไขข้อมูลโมดูล</a></span> &nbsp;&nbsp;<span class="caution"><a href="/course/{{ slug }}/{{ module.module_rank }}/delete">ลบโมดูล</a></span></p>
+                <div class="spacer-big"></div>
+                <h3>แบบทดสอบของโมดูลนี้</h3>
+                {% if test_questions %}
+                    <table class="about">
+                        <tr><th>ข้อที่</th><th>คำถาม</th></tr>
+                        {% for test_question in test_questions %}
+                        <tr>
+                            <td class="col1-small">{{ test_question.question_rank }}</td>
+                            <td class="col2-small"><a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}">{{ test_question.question|markdown }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>ยังไม่มีแบบทดสอบในโมดูลนี้</p>
+                {% endif %}
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/{{ module_rank }}/add">+ เพิ่มแบบทดสอบ</a></span></p>
+                <div class="spacer-big"></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

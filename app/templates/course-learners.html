@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>ข้อมูลผู้เรียน</h1>
+    <h2>คอร์ส: {{ course.name }}</h2>
+    <p>จำนวนผู้เรียน: {{ learner_num}} คน</p>
+    <div class="passed-zone">
+        <p>เรียงตาม: 
+            <a href="/course/{{ course.slug }}/learners/sort-enrollment">ลำดับการสมัครเรียน</a> | 
+            <a href="/course/{{ course.slug }}/learners/sort-user">ชื่อผู้เรียน</a> | 
+            <a href="/course/{{ course.slug }}/learners/sort-email">อีเมลผู้เรียน</a> | 
+            <a href="/course/{{ course.slug }}/learners/sort-cert">รหัสประกาศนียบัตร</a>
+        </p>
+    </div>
+    <table class="about">
+        <tr>
+            <th>User ID</th>
+            <th>User name</th>
+            <th>User email</th>
+            <th>Cert ID</th>
+        </tr>
+    {% for user, enrollment in learners.items() %}
+        <tr>
+            <td class="col1-small">{{ user.id }}</td>
+            <td class="col2-small">{{ user.name}}</td>
+            <td class="col2-small">{{ user.email }}</td>
+            <td class="col2-small">{{ enrollment.cert_id }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

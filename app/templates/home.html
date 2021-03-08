@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="main-wrapper">
+        <h1>ยินดีต้อนรับสู่ Deep Matters LMS</h1>
+        <p>คำอธิบายระบบ</p>
+        <div class="spacer-big"></div>
+        {% if not current_user.is_authenticated %}
+            <div class="info-box">
+                <p>กรุณา [ <a href="/login">ล็อกอิน</a> ] เพื่อเรียนต่อจากที่ค้างไว้ หรือ [ <a href="/signup">สมัครสมาชิก</a> ] เพื่อเริ่มเรียน</p>
+            </div>
+        {% else %}
+            <div class="info-box">
+                <p>สวัสดี {{ current_user.name }}</p>
+                <p><span class="continue"><a href="/profile">เข้าสู่บทเรียน</a></span></p>
+            </div>
+        {% endif %}
+        <div class="spacer-big"></div>
+        <p>คำอธิบายเพิ่มเติม</p>
+        <h2>หัวข้อ</h2>
+        <ul>
+            <li>รายการ</li>
+            <li>รายการ</li>
+        </ul>
+    </div>
+</main>
+{% endblock %}

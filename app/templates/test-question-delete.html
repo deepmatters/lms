@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="login-wrapper">
+        <h1>ยืนยันการลบคำถาม</h1>
+        <p>คุณแน่ใจหรือไม่ที่จะลบคำถาม {{ test_question.question|markdown }}</p>
+        <p class="red-em">กรุณาอย่าลบคำถามหากมีผู้เรียนไปแล้ว หากต้องการแก้ไขให้เปิดคอร์สใหม่แทน</p>
+        <p>[ <a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}/delete/confirm">แน่ใจ ลบคำถามทันที</a> ]</p>
+        <p>[ <a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}">ยกเลิกการลบคำถาม</a> ]</p>
+    </div>
+</div>
+{% endblock %}

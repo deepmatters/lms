@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>{{ course.name }}</h1>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-half-left">
+            <p>โมดูลที่ {{ module.module_rank }}</p>
+            <h2>{{ module.name }}</h2>
+            <h3>คำถามข้อที่ {{ test_question.question_rank }}</h3>
+            {{ test_question.question|markdown }}
+            {% if module_creator %}
+                {% if test_answers %}
+                    <table class="about">
+                        <tr><th>ตัวเลือกที่</th><th>คำตอบ</th><th>เฉลย</th><th>คำอธิบายคำตอบ</th></tr>
+                        {% for test_answer in test_answers %}
+                        <tr>
+                            <td class="col1-small">{{ test_answer.answer_rank }}</td>
+                            <td class="col2-small">{{ test_answer.answer }}</td>
+                            <td class="col2-small">{{ test_answer.correct }}</td>
+                            <td class="col2-small">{{ test_answer.feedback }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>คำถามนี้ยังไม่มีตัวเลือกคำตอบ</p>
+                {% endif %}
+                <div class="spacer-big"></div>
+                {% if test_answers %}
+                <div class="caution-zone">
+                    <span>ระวัง! กดลบแล้วจะลบทันที ไม่มีการยืนยัน : &nbsp;&nbsp;</span>
+                    {% for test_answer in test_answers %}
+                    <span class="caution"><a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}/{{ test_answer.answer_rank }}/delete">ลบตัวเลือกที่ {{ test_answer.answer_rank }}</a></span>
+                    {% endfor %}
+                </div>
+                <br>
+                {% endif %}
+                <p><span class="continue"><a href="/course/{{ slug }}/{{ module_rank }}/{{ test_question.question_rank }}/add">+ เพิ่มตัวเลือกคำตอบ</a></span></p>
+                <br>
+                {% if enable_answer_form %}
+                    <form method="POST" action="/course/{{ slug }}/{{ module_rank }}/{{ test_question.question_rank }}/add">
+                        {{ form.csrf_token }}
+                        <div class="input-wrapper">
+                            {{ form.answer_rank.label }}
+                            {{ form.answer_rank(size=8, placeholder="1", autofocus=true) }}<br>
+                            {{ form.answer.label }}
+                            {{ form.answer(placeholder="ใส่ตัวเลือกคำตอบ") }}<br><br>
+                            {{ form.correct.label }}
+                            {{ form.correct() }}
+                            {{ form.feedback.label }}
+                            {{ form.feedback(placeholder="ใส่คำอธิบายเมื่อผู้เรียนเลือกตัวเลือกนี้และตรวจคำตอบ") }}<br><br>
+                        </div>
+                        <div class="button-wrapper">
+                            {{ form.submit(class_="button") }}
+                        </div>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="main-flex-half-right">
+            {% if module_creator %}
+                <h2>สำหรับเจ้าของโมดูลนี้</h2>
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}/edit">แก้ไขคำถามนี้</a></span> &nbsp;&nbsp;<span class="caution"><a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}/delete">ลบคำถามนี้</a></span></p>
+                <div class="spacer-big"></div>
+                <h3>แบบทดสอบของโมดูลนี้</h3>
+                {% if test_questions %}
+                    <table class="about">
+                        <tr><th>ข้อที่</th><th>คำถาม</th></tr>
+                        {% for test_question in test_questions %}
+                        <tr>
+                            <td class="col1-small">{{ test_question.question_rank }}</td>
+                            <td class="col2-small"><a href="/course/{{ slug }}/{{ module.module_rank }}/{{ test_question.question_rank }}">{{ test_question.question|markdown }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>ยังไม่มีแบบทดสอบในโมดูลนี้</p>
+                {% endif %}
+                <div class="spacer-small"></div>
+                <p><span class="continue"><a href="/course/{{ slug }}/{{ module_rank }}/add">+ เพิ่มแบบทดสอบ</a></span></p>
+                <div class="spacer-big"></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>ตรวจสอบประกาศนียบัตร</h1>
+    <p>Cert ID: {{hash_id}}</p>
+    <p>ผลการตรวจสอบ: <strong>{{ hash_verify_output }}</strong></p>
+</div>
+{% endblock %}

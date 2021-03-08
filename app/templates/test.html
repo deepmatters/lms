@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1>{{ course.name }}</h1>
+    <div class="main-flex-wrapper">
+        <div class="main-flex-content">
+            <p>โมดูลที่ {{ module.module_rank }}</p>
+            <h2>{{ module.name }} > ทดสอบความเข้าใจ</h2>
+            <p>เกณฑ์การผ่านแบบทดสอบ: {{ module.pass_condition*100 }}%</p>
+            <hr>
+            <div class="spacer-big"></div>
+            <form method="POST" action="/learn/{{ course.slug }}/{{ module.module_rank }}/test">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>               
+                {% for question, answers in joined_answers.items() %}
+                    <p>{{ question|markdown }}</p>
+                    {% for answer in answers %}
+                        <input class="float-left" type="radio" id="{{ answer.id }}" name="{{ answer.test_question_id }}" value="{{ answer.id }}" required>
+                        <label for="{{ answer.id }}">{{ answer.answer }}</label>
+                    {% endfor %}  
+                {% endfor %}
+                <br>
+                <div class="button-wrapper">
+                    <input class="button" type="submit" value="ตรวจคำตอบ">
+                </div>
+            </form>
+        </div>
+        <div class="main-flex-nav">
+            <h3>โมดูลของคอร์สนี้</h3>
+            {% for mod in module_list %}
+                <p>
+                    {% if mod.name == module.name %}
+                        <span class="current"></span>
+                    {% endif %}
+                    <a href="/learn/{{ course.slug }}/{{ mod.module_rank }}">{{ mod.name }}</a>
+                    {% if mod.id in passed_mod_list %}
+                        <span class="tag">ผ่านแล้ว</span>
+                    {% endif %}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

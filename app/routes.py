@@ -102,7 +102,7 @@ def forget():
             msg = Message(subject='[SoKru.org] รีเซ็ตรหัสผ่าน',
                   sender = 'support@cfapp.org',
                   recipients = [email])  # <<< CONFIGURE WEBSITE URL
-            msg.body = ("คุณได้กดขอรหัสผ่านใหม่จากเว็บ SoKru.org กรุณากดลืงก์นี้ https://sokru.org/password-reset/" + password_reset_id + " เพื่อตั้งรหัสผ่านใหม่")  # <<< CONFIGURE EMAIL MESSAGE AND URL
+            msg.body = ("คุณได้กดขอรหัสผ่านใหม่จากเว็บ SoKru.org กรุณากดลิงก์นี้ https://sokru.org/password-reset/" + password_reset_id + " เพื่อตั้งรหัสผ่านใหม่")  # <<< CONFIGURE EMAIL MESSAGE AND URL
 
             Thread(target=send_async_email, args=(app, msg)).start()  # Send mail asynchronously
 
